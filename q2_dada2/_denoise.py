@@ -220,7 +220,7 @@ def _denoise_single(demultiplexed_seqs, trunc_len, trim_left, max_ee, trunc_q,
                 fw.write(line)
 
         # write stats
-        with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/raw_seqs.tsv'), 'w') as fw:
+        with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/stats.tsv'), 'w') as fw:
 
             for line in hashed_feature_ids:
                 fw.write(line)
