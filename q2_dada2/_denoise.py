@@ -204,7 +204,11 @@ def _denoise_single(demultiplexed_seqs, trunc_len, trim_left, max_ee, trunc_q,
                 raise Exception("An error was encountered while running DADA2"
                                 " in R (return code %d), please inspect stdout"
                                 " and stderr to learn more." % e.returncode)
-        return biom_fp
+
+        with open(biom_fp, 'r') as fr, open(os.path.abspath('/Users/keeganevans/work/data/pacbio/raw_out.tsv') , 'w') as fw:
+            for line in fr:
+                fw.write(line)
+        
         #return _denoise_helper(biom_fp, track_fp, hashed_feature_ids)
 
 
