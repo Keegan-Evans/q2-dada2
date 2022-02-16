@@ -160,7 +160,22 @@ def _denoise_helper(biom_fp, track_fp, hashed_feature_ids):
         rep_sequences = DNAIterator(
             (skbio.DNA(id_, metadata={'id': id_})
              for id_ in table.ids(axis='observation')))
-    return biom.Table.to_tsv(table), rep_sequences, metadata
+
+    # write table
+    with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/table_raw.tsv') , 'w') as fw:
+        for line in biom.Table.to_tsv(table):
+            fw.write(line)
+     
+    # write rep_sequences
+    with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/rep_sequences.fasta'), 'w') as fw:
+        for line in rep_sequences:
+            fw.write(line)
+
+    # write stats
+    with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/stats.tsv'), 'w') as fw:
+        for line in hashed_feature_ids:
+            fw.write(line)
+    return table, rep_sequences, metadata
 
 
 
@@ -334,7 +349,7 @@ def denoise_ccs(demultiplexed_seqs: SingleLanePerSampleSingleEndFastqDirFmt,
                 min_fold_parent_over_abundance: float = 3.5,
                 n_threads: int = 1, n_reads_learn: int = 1000000,
                 hashed_feature_ids: bool = True
-                ) -> (_, DNAIterator, qiime2.Metadata):
+                ) -> (biom.Table, DNAIterator, qiime2.Metadata):
     _check_inputs(**locals())
     if trunc_len != 0 and trim_left >= trunc_len:
         raise ValueError("trim_left (%r) must be smaller than trunc_len (%r)"
@@ -374,24 +389,5 @@ def denoise_ccs(demultiplexed_seqs: SingleLanePerSampleSingleEndFastqDirFmt,
                                 " in R (return code %d), please inspect stdout"
                                 " and stderr to learn more." % e.returncode)
 
-    #    # write table
-    #    with open(biom_fp, 'r') as fh, \
-    #        open(os.path.abspath('/Users/keeganevans/work/data/pacbio/raw_out.tsv') , 'w') as fw:
-
-    #        for line in fh:
-    #            fw.write(line)
-    #    
-    #    # write rep_sequences
-    #    with open(track_fp, 'r') as fh, \
-    #        open(os.path.abspath('/Users/keeganevans/work/data/pacbio/raw_seqs.tsv'), 'w') as fw:
-
-    #        for line in fh:
-    #            fw.write(line)
-
-       # # write stats
-       # with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/stats.tsv'), 'w') as fw:
-
-       #     for line in hashed_feature_ids:
-       #         fw.write(line)
             
         return _denoise_helper(biom_fp, track_fp, hashed_feature_ids)
