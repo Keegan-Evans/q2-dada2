@@ -205,10 +205,27 @@ def _denoise_single(demultiplexed_seqs, trunc_len, trim_left, max_ee, trunc_q,
                                 " in R (return code %d), please inspect stdout"
                                 " and stderr to learn more." % e.returncode)
 
-        with open(biom_fp, 'r') as fr, open(os.path.abspath('/Users/keeganevans/work/data/pacbio/raw_out.tsv') , 'w') as fw:
-            for line in fr:
+        # write table
+        with open(biom_fp, 'r') as fh, \
+            open(os.path.abspath('/Users/keeganevans/work/data/pacbio/raw_out.tsv') , 'w') as fw:
+
+            for line in fh:
                 fw.write(line)
         
+        # write rep_sequences
+        with open(track_fp, 'r') as fh, \
+            open(os.path.abspath('/Users/keeganevans/work/data/pacbio/raw_seqs.tsv'), 'w') as fw:
+
+            for line in fh:
+                fw.write(line)
+
+        # write stats
+        with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/raw_seqs.tsv'), 'w') as fw:
+
+            for line in hashed_feature_ids:
+                fw.write(line)
+            
+                
         #return _denoise_helper(biom_fp, track_fp, hashed_feature_ids)
 
 
