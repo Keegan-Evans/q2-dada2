@@ -205,8 +205,7 @@ def _denoise_single(demultiplexed_seqs, trunc_len, trim_left, max_ee, trunc_q,
                                 " in R (return code %d), please inspect stdout"
                                 " and stderr to learn more." % e.returncode)
 
-                
-        #return _denoise_helper(biom_fp, track_fp, hashed_feature_ids)
+        return _denoise_helper(biom_fp, track_fp, hashed_feature_ids)
 
 
 def denoise_single(demultiplexed_seqs: SingleLanePerSampleSingleEndFastqDirFmt,
@@ -387,10 +386,10 @@ def denoise_ccs(demultiplexed_seqs: SingleLanePerSampleSingleEndFastqDirFmt,
             for line in fh:
                 fw.write(line)
 
-        # write stats
-        with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/stats.tsv'), 'w') as fw:
+       # # write stats
+       # with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/stats.tsv'), 'w') as fw:
 
-            for line in hashed_feature_ids:
-                fw.write(line)
+       #     for line in hashed_feature_ids:
+       #         fw.write(line)
             
         return _denoise_helper(biom_fp, track_fp, hashed_feature_ids)
