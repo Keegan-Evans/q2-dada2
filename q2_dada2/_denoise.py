@@ -204,7 +204,8 @@ def _denoise_single(demultiplexed_seqs, trunc_len, trim_left, max_ee, trunc_q,
                 raise Exception("An error was encountered while running DADA2"
                                 " in R (return code %d), please inspect stdout"
                                 " and stderr to learn more." % e.returncode)
-        return _denoise_helper(biom_fp, track_fp, hashed_feature_ids)
+        return biom_fp
+        #return _denoise_helper(biom_fp, track_fp, hashed_feature_ids)
 
 
 def denoise_single(demultiplexed_seqs: SingleLanePerSampleSingleEndFastqDirFmt,
