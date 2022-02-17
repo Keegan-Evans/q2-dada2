@@ -162,19 +162,21 @@ def _denoise_helper(biom_fp, track_fp, hashed_feature_ids):
              for id_ in table.ids(axis='observation')))
 
     # write table
-    with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/table_raw.tsv') , 'w') as fw:
+    with open(os.path.join(os.getcwd(), 'table_raw.tsv') , 'w') as fw:
         for line in biom.Table.to_tsv(table):
             fw.write(line)
      
     # write rep_sequences
-    with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/rep_sequences.fasta'), 'w') as fw:
-        for line in rep_sequences:
-            fw.write(line)
+    with open(os.path.join(os.getcwd(), 'rep_sequences.fasta'), 'w') as fh:
+        for k, v in fid_map.items():
+            fh.write(">" + v + "\n" + k + "\n")
 
     # write stats
-    with open(os.path.abspath('/Users/keeganevans/work/data/pacbio/stats.tsv'), 'w') as fw:
-        for line in hashed_feature_ids:
-            fw.write(line)
+    df.to_csv(os.path.join(os.getcwd(), 'stats.tsv'), sep="\t")
+    #with open(os.path.join(os.getcwd(), 'stats.tsv'), 'w') as fw:
+    #    for line in df:
+    #        fw.write(line)
+
     return table, rep_sequences, metadata
 
 
